@@ -1,0 +1,20 @@
+# 💡 Use a domain name instead of a port to benefit from Caddy automatic TLS features
+# 💡 You can also change the port if you wish to use HTTP without TLS
+:80 {
+        root * /var/lib/edgedb-studio/www
+        handle_path /ui/* {
+                file_server {
+                        pass_thru
+                }
+        }
+        handle /ui/* {
+                rewrite * /ui{uri}
+                # 📢 This is the URL of the EdgeDB Server 📢
+                # It must be updated if server is not listenning on localhost on port 10700
+                reverse_proxy * localhost:10700
+        }
+        file_server {
+                index index.html
+        }
+        encode gzip
+}

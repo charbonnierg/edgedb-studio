@@ -1,0 +1,18 @@
+:80 {
+        root * /www
+        handle_path /ui/* {
+                file_server {
+                        pass_thru
+                }
+        }
+        handle /ui/* {
+                rewrite * /ui{uri}
+                # 📢 This is the URL of the EdgeDB Server 📢
+                # It is configured according to environment variables
+                reverse_proxy * ${EDGEDB_HOST}:${EDGEDB_PORT}
+        }
+        file_server {
+                index index.html
+        }
+        encode gzip
+}

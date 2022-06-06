@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+function error() {
+    >&2 echo -e "Error: $1"
+}
+
+function warn() {
+    >&2 echo -e "Warning: $1"
+}
+
+function render() {
+    set -euo pipefail
+    cat "$1" | envsubst > "$2"
+}
+
+# Make sure we've got a host
+if [[ -z "${EDGEDB_HOST}" ]]; then
+    error "EDGEDB_HOST environment variable must be specified"
+    exit 1
+fi
+
+# Make sure we've got a port
+if [[ -z "${EDGEDB_PORT}" ]]; then
+    warn "Using default port for EdgeDB Server: 5656"
+    export EDGEDB_PORT=5656
+fi
+
+# Render template into file
+render /etc/caddy/Caddyfile.template /etc/caddy/Caddyfile
+
+# Execute arguments provided to entrypoint
+exec "$@"

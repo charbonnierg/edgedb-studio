@@ -1,0 +1,9 @@
+node_modules/
+.git/
+.yarn/
+!/.yarn/releases
+!/.yarn/plugins
+.vscode/
+build/
+docker/build.sh
+docker/README.md

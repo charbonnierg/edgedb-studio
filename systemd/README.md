@@ -1,4 +1,4 @@
-# How to deploy production application
+# How to deploy production application using `systemd`
 
 ## Dependencies on developer machine:
 
@@ -22,7 +22,7 @@
 
     ```bash
     cd edgedb-studio
-    yarn install
+    yarn
     ```
 
 3. Build the `web` project using `yarn`:
